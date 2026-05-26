@@ -1,0 +1,56 @@
+# MiMo Multi-Agent Configuration
+# Primary provider: Xiaomi MiMo API
+
+orchestrator:
+  max_retries: 2
+  verbose: true
+
+providers:
+  primary: mimo
+  configs:
+    mimo:
+      base_url: "https://api.mimo.xiaomi.com/v1"
+      model: "MiMo-7B"
+      api_key_env: "MIMO_API_KEY"
+      max_tokens: 2048
+      temperature: 0.7
+
+    openai:
+      base_url: "https://api.openai.com/v1"
+      model: "gpt-4o"
+      api_key_env: "OPENAI_API_KEY"
+      max_tokens: 2048
+      temperature: 0.7
+
+    deepseek:
+      base_url: "https://api.deepseek.com/v1"
+      model: "deepseek-chat"
+      api_key_env: "DEEPSEEK_API_KEY"
+      max_tokens: 2048
+      temperature: 0.7
+
+    claude:
+      base_url: "https://api.anthropic.com/v1"
+      model: "claude-sonnet-4-20250514"
+      api_key_env: "ANTHROPIC_API_KEY"
+      max_tokens: 2048
+      temperature: 0.7
+
+agents:
+  planner:
+    system_prompt: |
+      You are a planning agent. Break the given task into clear, ordered subtasks.
+      Return each subtask on a new line, prefixed with its number.
+    max_subtasks: 8
+
+  executor:
+    system_prompt: |
+      You are an execution agent. Complete the given subtask thoroughly.
+      Return clean, well-structured output.
+    temperature: 0.7
+
+  reviewer:
+    system_prompt: |
+      You are a review agent. Evaluate the output for correctness, completeness, and quality.
+      Return APPROVED if the output meets standards, or REVISE with specific feedback.
+    temperature: 0.3
